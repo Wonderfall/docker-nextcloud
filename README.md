@@ -23,10 +23,11 @@
 
 ### Tags
 - **latest** : latest stable version. (12.0)
-- **12.0** : latest 12.0.x version (stable)
-- **11.0** : latest 11.0.x version (old stable)
-- **10.0** : latest 10.0.x version (old stable) (unmaintained)
-- **9.0** : latest 9.0.x version. (old stable) (unmaintained)
+- **13** : latest 13.0.x version (beta)
+- **12** : latest 12.0.x version (stable)
+- **11** : latest 11.0.x version (old stable)
+- **10** : latest 10.0.x version (old stable) (unmaintained)
+- **9** : latest 9.0.x version. (old stable) (unmaintained)
 - **daily** : latest code (daily build).
 
 Other tags than `daily` are built weekly. For security reasons, you should occasionally update the container, even if you have the latest version of Nextcloud.
