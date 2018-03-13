@@ -220,7 +220,7 @@ Of course you can use your own solution! nginx, Haproxy, Caddy, h2o, Traefik...
 
 Whatever your choice is, you have to know that headers are already sent by the container, including HSTS, so there's no need to add them again. **It is strongly recommended (I'd like to say : MANDATORY) to use Nextcloud through an encrypted connection (HTTPS).** [Let's Encrypt](https://letsencrypt.org/) provides free SSL/TLS certificates, so you have no excuses.
 
-You can take a look at my brand new image [wonderfall/reverse](https://hub.docker.com/r/wonderfall/reverse/). It was made with security and ease-of-use in mind, using the latest versions of nginx and OpenSSL. It also provides SSL/TLS automation with [lego](https://github.com/xenolf/lego), a Let's Encrypt client. Also, no need to bother about configuration files! This image does litterally everything for you.
+You can take a look at [xataz/reverse-nginx](https://github.com/xataz/docker-reverse-nginx). It was made with security and ease-of-use in mind, using the latest versions of nginx and OpenSSL. It also provides SSL/TLS automation with [lego](https://github.com/xenolf/lego), a Let's Encrypt client. Also, no need to bother about configuration files! This image does litterally everything for you.
 
 Look at how simple it is. First, you have to add labels to your Nextcloud container, like this:
 
@@ -240,7 +240,7 @@ These labels can tell the reverse container what settings should be set when gen
 
 ```
   reverse:
-    image: wonderfall/reverse
+    image: xataz/reverse-nginx
     container_name: reverse
     ports:
       - "80:8080"
@@ -254,4 +254,4 @@ These labels can tell the reverse container what settings should be set when gen
       - nextcloud
 ```
 
-That's it! Did I lie to you?
+That's it! Enjoy.
