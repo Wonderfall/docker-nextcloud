@@ -54,6 +54,7 @@ Other tags than `daily` are built weekly. For security reasons, you should occas
 - **DB_USER** : username for database *(default : none)*
 - **DB_PASSWORD** : password for database user *(default : none)*
 - **DB_HOST** : database host *(default : none)*
+- **HSTS** : custom HSTS header in the nginx configuration. Empty will disable HSTS *(default: add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;)*
 
 Don't forget to use a **strong password** for the admin account!
 
