@@ -3,13 +3,11 @@
 
 [![](https://images.microbadger.com/badges/version/wonderfall/nextcloud.svg)](http://microbadger.com/images/wonderfall/nextcloud "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/wonderfall/nextcloud.svg)](http://microbadger.com/images/wonderfall/nextcloud "Get your own image badge on microbadger.com")
 
-![](https://s32.postimg.org/69nev7aol/Nextcloud_logo.png)
-
 **This image was made for my own use and I have no intention to make this official. Support won't be regular so if there's an update, or a fix, you can open a pull request. Any contribution is welcome, but please be aware I'm very busy currently. Before opening an issue, please check if there's already one related. Also please use Github instead of Docker Hub, otherwise I won't see your comments. Thanks.**
 
 ### Features
 - Based on Alpine Linux.
-- Bundled with nginx and PHP 7.1 (wonderfall/nginx-php image).
+- Bundled with nginx and PHP 7.x (wonderfall/nginx-php image).
 - Automatic installation using environment variables.
 - Package integrity (SHA512) and authenticity (PGP) checked during building process.
 - Data and apps persistence.
@@ -24,13 +22,9 @@
 ### Tags
 - **latest** : latest stable version. (13.0)
 - **13.0** : latest 13.0.x version (stable)
-- **12.0** : latest 12.0.x version (old stable)
-- **11.0** : latest 11.0.x version (old stable)
-- **10.0** : latest 10.0.x version (old stable) (unmaintained)
-- **9.0** : latest 9.0.x version. (old stable) (unmaintained)
 - **daily** : latest code (daily build).
 
-Other tags than `daily` are built weekly. For security reasons, you should occasionally update the container, even if you have the latest version of Nextcloud.
+Other tags than `daily` are built weekly. For security reasons, you should occasionally update the container, even if you have the latest version of Nextcloud. **WARNING : automatic build is not working at the moment.**
 
 ### Build-time variables
 - **NEXTCLOUD_VERSION** : version of nextcloud
@@ -129,11 +123,11 @@ I advise you to use [docker-compose](https://docs.docker.com/compose/), which is
 Don't copy/paste without thinking! It is a model so you can see how to do it correctly.
 
 ```
-version: '2'
+version: '3'
 
 networks:
-  default:
-    driver: bridge
+  nextcloud_network:
+    external: false
 
 services:
   nextcloud:
@@ -163,6 +157,8 @@ services:
       - /docker/nextcloud/config:/config
       - /docker/nextcloud/apps:/apps2
       - /docker/nextcloud/themes:/nextcloud/themes
+    networks:
+      - nextcloud_network
 
   # If using MySQL
   nextcloud-db:
@@ -174,6 +170,8 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - MYSQL_PASSWORD=supersecretpassword
+    networks:
+      - nextcloud_network
     
   # If using Nextant
   solr:
@@ -185,6 +183,8 @@ services:
       - docker-entrypoint.sh
       - solr-precreate
       - nextant
+    networks:
+      - nextcloud_network
 
   # If using Redis
   redis:
@@ -192,6 +192,8 @@ services:
     container_name: redis
     volumes:
       - /docker/nextcloud/redis:/data
+    networks:
+      - nextcloud_network
 ```
 
 You can update everything with `docker-compose pull` followed by `docker-compose up -d`.
@@ -216,42 +218,7 @@ You will have to deploy a Solr server, I've shown an example above with docker-c
 There is a script for that, so you shouldn't bother to log into the container, set the right permissions, and so on. Just use `docker exec -ti nexcloud occ command`.
 
 ### Reverse proxy
-Of course you can use your own solution! nginx, Haproxy, Caddy, h2o, Traefik...
+Of course you can use your own software! nginx, Haproxy, Caddy, h2o, Traefik...
+The latter is especially a good choice when using Docker. [Give it a try!](https://traefik.io/)
 
 Whatever your choice is, you have to know that headers are already sent by the container, including HSTS, so there's no need to add them again. **It is strongly recommended (I'd like to say : MANDATORY) to use Nextcloud through an encrypted connection (HTTPS).** [Let's Encrypt](https://letsencrypt.org/) provides free SSL/TLS certificates, so you have no excuses.
-
-You can take a look at [xataz/reverse-nginx](https://github.com/xataz/docker-reverse-nginx). It was made with security and ease-of-use in mind, using the latest versions of nginx and OpenSSL. It also provides SSL/TLS automation with [lego](https://github.com/xenolf/lego), a Let's Encrypt client. Also, no need to bother about configuration files! This image does litterally everything for you.
-
-Look at how simple it is. First, you have to add labels to your Nextcloud container, like this:
-
-```
-  nextcloud:
-  ...
-    labels:
-      - reverse.frontend.domain=cloud.domain.tld
-      - reverse.backend.port=8888
-      - reverse.frontend.ssl=true
-      - reverse.frontend.ssltype=ec384
-      - reverse.frontend.hsts=false
-      - reverse.frontend.headers=false
-```
-
-These labels can tell the reverse container what settings should be set when generating files/certificates for Nextcloud. Now you can add the reverse container in your docker-compose file, and you need to provide it your `EMAIL` (for Let's Encrypt), and bind it to the nextcloud container :
-
-```
-  reverse:
-    image: xataz/reverse-nginx
-    container_name: reverse
-    ports:
-      - "80:8080"
-      - "443:8443"
-    environment:
-      - EMAIL=admin@domain.tld
-    volumes:
-      - /docker/reverse/ssl:/nginx/ssl
-      - /var/run/docker.sock:/var/run/docker.sock
-    depends_on:
-      - nextcloud
-```
-
-That's it! Enjoy.
