@@ -2,7 +2,7 @@
 version: '3'
 # This instance is using SQLite3 as database backend.
 # Please consider using a proper database like MariaDB or PostgreSQL
-# if you are want to use this productive.
+# if you want to use this productive.
 
 services:
   nextcloud:
