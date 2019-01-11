@@ -1,0 +1,24 @@
+---
+version: '3'
+# This instance is using SQLite3 as database backend.
+# Please consider using a proper database like MariaDB or PostgreSQL
+# if you want to use this productive.
+
+services:
+  nextcloud:
+    image: wonderfall/nextcloud
+    build:
+      context: .
+      dockerfile: Dockerfile.15.0
+    environment:
+      - UID=1000
+      - GID=1000
+      - ADMIN_USER=mrrobot
+      - ADMIN_PASSWORD=supercomplicatedpassword
+      - DB_TYPE=sqlite
+    volumes:
+      - ./data:/data
+      - ./config:/config
+      - ./apps:/apps2
+    ports:
+      - 8888:8888
