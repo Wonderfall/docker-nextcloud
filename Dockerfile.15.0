@@ -29,6 +29,9 @@ RUN apk -U upgrade \
     ca-certificates \
     libsmbclient \
     tzdata \
+    php7-imagick \
+ && echo "extension=imagick.so" > /php/conf.d/imagick.ini \
+ && ln /usr/lib/php7/modules/imagick.so /usr/lib/php/extensions/no-debug-non-zts-20170718/imagick.so \
  && pecl install \
     smbclient \
     apcu \
