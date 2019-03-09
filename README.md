@@ -22,7 +22,7 @@
 ### Tags
 - **latest** : latest stable version.
 - **15.0** : latest 15.0.x version (stable)
-- **13.0** : latest 13.0.x version (oldstable)
+- **14.0** : latest 14.0.x version (oldstable)
 - **daily** : latest code (daily build).
 
 Other tags than `daily` are built weekly. For security reasons, you should occasionally update the container, even if you have the latest version of Nextcloud. **WARNING : automatic build is not working at the moment.**
