@@ -25,6 +25,7 @@ RUN apk -U upgrade \
     libtool \
     samba-dev \
     imagemagick \
+    imagemagick-devel \
  && apk add \
     libressl \
     ca-certificates \
