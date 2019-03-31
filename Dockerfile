@@ -24,6 +24,7 @@ RUN apk -U upgrade \
     pcre-dev \
     libtool \
     samba-dev \
+    imagemagick \
  && apk add \
     libressl \
     ca-certificates \
@@ -33,6 +34,7 @@ RUN apk -U upgrade \
     smbclient \
     apcu \
     redis \
+    imagemagick \
  && echo "extension=smbclient.so" > /php/conf.d/smbclient.ini \
  && echo "extension=redis.so" > /php/conf.d/redis.ini \
  && mkdir /nextcloud \
