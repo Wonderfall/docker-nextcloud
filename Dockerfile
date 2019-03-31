@@ -34,7 +34,7 @@ RUN apk -U upgrade \
     smbclient \
     apcu \
     redis \
-    imagemagick \
+    imagick \
  && echo "extension=smbclient.so" > /php/conf.d/smbclient.ini \
  && echo "extension=redis.so" > /php/conf.d/redis.ini \
  && mkdir /nextcloud \
