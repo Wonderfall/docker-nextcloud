@@ -1,0 +1,3 @@
+build_image:
+  script:
+    - docker build -t nextcloud .
