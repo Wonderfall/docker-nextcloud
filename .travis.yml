@@ -7,3 +7,8 @@ env:
   - VERSION=16.0
 script:
   - docker build . -f Dockerfile.$VERSION -t nextcloud:$VERSION
+deploy:
+  provider: script
+  script: docker push nextcloud:$VERSION
+  on:
+    branch: master
