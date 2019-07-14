@@ -6,4 +6,4 @@ env:
   - VERSION=15.0
   - VERSION=16.0
 script:
-  - docker build -f "Dockerfile.$VERSION" -t "nextcloud:$VERSION"
+  - docker build . -f Dockerfile.$VERSION -t nextcloud:$VERSION
