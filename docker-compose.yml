@@ -6,10 +6,10 @@ version: '3'
 
 services:
   nextcloud:
-    image: wonderfall/nextcloud
+    image: thegor1lla/nextcloud
     build:
       context: .
-      dockerfile: Dockerfile.15.0
+      dockerfile: Dockerfile.16.0
     environment:
       - UID=1000
       - GID=1000

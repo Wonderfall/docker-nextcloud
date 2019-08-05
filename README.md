@@ -1,9 +1,7 @@
-## wonderfall/nextcloud
+## thegor1lla/nextcloud
 
+**This image is forked from wonderfall for my own use. I'll try to keep it up to date.
 
-[![](https://images.microbadger.com/badges/version/wonderfall/nextcloud.svg)](http://microbadger.com/images/wonderfall/nextcloud "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/wonderfall/nextcloud.svg)](http://microbadger.com/images/wonderfall/nextcloud "Get your own image badge on microbadger.com")
-
-**This image was made for my own use and I have no intention to make this official. Support won't be regular so if there's an update, or a fix, you can open a pull request. Any contribution is welcome, but please be aware I'm very busy currently. Before opening an issue, please check if there's already one related. Also please use Github instead of Docker Hub, otherwise I won't see your comments. Thanks.**
 
 ### Features
 - Based on Alpine Linux.
@@ -21,11 +19,9 @@
 
 ### Tags
 - **latest** : latest stable version.
-- **15.0** : latest 15.0.x version (stable)
-- **14.0** : latest 14.0.x version (oldstable)
-- **daily** : latest code (daily build).
+- **16.0** : latest 16.0.x version (stable)
 
-Other tags than `daily` are built weekly. For security reasons, you should occasionally update the container, even if you have the latest version of Nextcloud. **WARNING : automatic build is not working at the moment.**
+All are built weekly. For security reasons, you should occasionally update the container, even if you have the latest version of Nextcloud. **WARNING : automatic build is not working at the moment.**
 
 ### Build-time variables
 - **NEXTCLOUD_VERSION** : version of nextcloud
@@ -70,14 +66,14 @@ Basically, you can use a database instance running on the host or any other mach
 Pull the image and create a container. `/docker` can be anywhere on your host, this is just an example. Change `MYSQL_ROOT_PASSWORD` and `MYSQL_PASSWORD` values (mariadb). You may also want to change UID and GID for Nextcloud, as well as other variables (see *Environment Variables*).
 
 ```
-docker pull wonderfall/nextcloud:10.0 && docker pull mariadb:10
+docker pull thegor1lla/nextcloud:16.0 && docker pull mariadb:latest
 
 docker run -d --name db_nextcloud \
        -v /docker/nextcloud/db:/var/lib/mysql \
        -e MYSQL_ROOT_PASSWORD=supersecretpassword \
        -e MYSQL_DATABASE=nextcloud -e MYSQL_USER=nextcloud \
        -e MYSQL_PASSWORD=supersecretpassword \
-       mariadb:10
+       mariadb:latest
        
 docker run -d --name nextcloud \
        --link db_nextcloud:db_nextcloud \
@@ -99,7 +95,7 @@ docker run -d --name nextcloud \
        -e DB_USER=nextcloud \
        -e DB_PASSWORD=supersecretpassword \
        -e DB_HOST=db_nextcloud \
-       wonderfall/nextcloud:10.0
+       thegor1lla/nextcloud:16.0
 ```
 
 You are **not obliged** to use `ADMIN_USER` and `ADMIN_PASSWORD`. If these variables are not provided, you'll be able to configure your admin acccount from your browser.
@@ -132,7 +128,7 @@ networks:
 
 services:
   nextcloud:
-    image: wonderfall/nextcloud
+    image: thegor1lla/nextcloud
     depends_on:
       - nextcloud-db           # If using MySQL
       - solr                   # If using Nextant
@@ -163,7 +159,7 @@ services:
 
   # If using MySQL
   nextcloud-db:
-    image: mariadb:10
+    image: mariadb:latest
     volumes:
       - /docker/nextcloud/db:/var/lib/mysql
     environment:
