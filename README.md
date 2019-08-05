@@ -1,6 +1,6 @@
 ## thegor1lla/nextcloud
 
-**This image is forked from wonderfall for my own use. I'll try to keep it up to date.
+**This image is forked from wonderfall for my own use. I'll try to keep it up to date.**
 
 
 ### Features
