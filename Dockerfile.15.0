@@ -29,12 +29,18 @@ RUN apk -U upgrade \
     ca-certificates \
     libsmbclient \
     tzdata \
+    g++ \
+    imagemagick-dev \
+    libtool \
+    make \
  && pecl install \
     smbclient \
     apcu \
     redis \
- && echo "extension=smbclient.so" > /php/conf.d/smbclient.ini \
- && echo "extension=redis.so" > /php/conf.d/redis.ini \
+    imagick \
+ && docker-php-ext-enable smbclient \
+ && docker-php-ext-enable redis \
+ && docker-php-ext-enable imagick \
  && mkdir /nextcloud \
  && cd /tmp \
  && NEXTCLOUD_TARBALL="nextcloud-${NEXTCLOUD_VERSION}.tar.bz2" \
@@ -53,7 +59,13 @@ RUN apk -U upgrade \
  && echo "All seems good, now unpacking ${NEXTCLOUD_TARBALL}..." \
  && tar xjf ${NEXTCLOUD_TARBALL} --strip 1 -C /nextcloud \
  && update-ca-certificates \
- && apk del build-dependencies \
+ && apk del \
+    autoconf \
+    automake \
+    build-dependencies \
+    g++ \
+    libtool \
+    make \
  && rm -rf /var/cache/apk/* /tmp/* /root/.gnupg
 
 COPY rootfs /
