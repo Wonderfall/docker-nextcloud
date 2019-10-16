@@ -19,13 +19,23 @@
 - No root processes. Never.
 - Environment variables provided (see below).
 
-### Tags
-- **latest** : latest stable version.
-- **15.0** : latest 15.0.x version (stable)
-- **14.0** : latest 14.0.x version (oldstable)
-- **daily** : latest code (daily build).
+### Dockerfiles
+- **Dockerfile.*.released** : latest released build of certain version (if released).
+- **Dockerfile.*.daily** : latest stable build of certain version (daily build).
+- **Dockerfile.daily** : latest code (daily build).
 
-Other tags than `daily` are built weekly. For security reasons, you should occasionally update the container, even if you have the latest version of Nextcloud. **WARNING : automatic build is not working at the moment.**
+
+### Tags
+- **latest** : latest version (daily build)
+- **17** : latest 17 version
+- **17daily** : latest 17 version
+- **16** : latest 16 version
+- **16daily** : latest 16 version
+- **15** : latest 15 version
+- **15daily** : latest 15 version
+- **14** : latest 14 version
+- **14daily** : latest 14 version
+- **daily** : latest code (daily build).
 
 ### Build-time variables
 - **NEXTCLOUD_VERSION** : version of nextcloud
