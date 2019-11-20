@@ -20,6 +20,7 @@
 ### Tags
 - **latest** : latest stable version.
 - **16.0** : latest 16.0.x version (stable)
+- **17.0** : latest 17.0.x version (stable)
 
 All are built weekly. For security reasons, you should occasionally update the container, even if you have the latest version of Nextcloud. **WARNING : automatic build is not working at the moment.**
 
