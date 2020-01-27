@@ -3,7 +3,7 @@
 
 [![](https://images.microbadger.com/badges/version/wonderfall/nextcloud.svg)](http://microbadger.com/images/wonderfall/nextcloud "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/wonderfall/nextcloud.svg)](http://microbadger.com/images/wonderfall/nextcloud "Get your own image badge on microbadger.com")
 
-**This image was made for my own use and I have no intention to make this official. Support won't be regular so if there's an update, or a fix, you can open a pull request. Any contribution is welcome, but please be aware I'm very busy currently. Before opening an issue, please check if there's already one related. Also please use Github instead of Docker Hub, otherwise I won't see your comments. Thanks.**
+**Made for my own use. Irregular updates! This image is eventually intended as a base for your own Docker image. I cannot be responsible if you're using outdated Docker images.**
 
 ### Features
 - Based on Alpine Linux.
@@ -21,11 +21,8 @@
 
 ### Tags
 - **latest** : latest stable version.
-- **15.0** : latest 15.0.x version (stable)
-- **14.0** : latest 14.0.x version (oldstable)
-- **daily** : latest code (daily build).
-
-Other tags than `daily` are built weekly. For security reasons, you should occasionally update the container, even if you have the latest version of Nextcloud. **WARNING : automatic build is not working at the moment.**
+- **18.0** : latest 18.0.x version (stable)
+- **17.0** : latest 17.0.x version (oldstable)
 
 ### Build-time variables
 - **NEXTCLOUD_VERSION** : version of nextcloud
@@ -70,7 +67,7 @@ Basically, you can use a database instance running on the host or any other mach
 Pull the image and create a container. `/docker` can be anywhere on your host, this is just an example. Change `MYSQL_ROOT_PASSWORD` and `MYSQL_PASSWORD` values (mariadb). You may also want to change UID and GID for Nextcloud, as well as other variables (see *Environment Variables*).
 
 ```
-docker pull wonderfall/nextcloud:10.0 && docker pull mariadb:10
+docker pull wonderfall/nextcloud && docker pull mariadb
 
 docker run -d --name db_nextcloud \
        -v /docker/nextcloud/db:/var/lib/mysql \
@@ -99,17 +96,10 @@ docker run -d --name nextcloud \
        -e DB_USER=nextcloud \
        -e DB_PASSWORD=supersecretpassword \
        -e DB_HOST=db_nextcloud \
-       wonderfall/nextcloud:10.0
+       wonderfall/nextcloud
 ```
 
 You are **not obliged** to use `ADMIN_USER` and `ADMIN_PASSWORD`. If these variables are not provided, you'll be able to configure your admin acccount from your browser.
-
-**Below you can find a docker-compose file, which is very useful!**
-
-Now you have to use a **reverse proxy** in order to access to your container through Internet, steps and details are available at the end of the README.md. And that's it! Since you already configured Nextcloud through setting environment variables, there's no setup page.
-
-### ARM-based devices
-You will have to build yourself using an Alpine-ARM image, like `orax/alpine-armhf:edge`.
 
 ### Configure
 In the admin panel, you should switch from `AJAX cron` to `cron` (system cron).
@@ -135,7 +125,6 @@ services:
     image: wonderfall/nextcloud
     depends_on:
       - nextcloud-db           # If using MySQL
-      - solr                   # If using Nextant
       - redis                  # If using Redis
     environment:
       - UID=1000
@@ -145,8 +134,6 @@ services:
       - OPCACHE_MEM_SIZE=128
       - CRON_PERIOD=15m
       - TZ=Europe/Berlin
-      - ADMIN_USER=admin            # Don't set to configure through browser
-      - ADMIN_PASSWORD=admin        # Don't set to configure through browser
       - DOMAIN=localhost
       - DB_TYPE=mysql
       - DB_NAME=nextcloud
@@ -163,7 +150,7 @@ services:
 
   # If using MySQL
   nextcloud-db:
-    image: mariadb:10
+    image: mariadb
     volumes:
       - /docker/nextcloud/db:/var/lib/mysql
     environment:
@@ -174,19 +161,6 @@ services:
     networks:
       - nextcloud_network
     
-  # If using Nextant
-  solr:
-    image: solr:6-alpine
-    container_name: solr
-    volumes:
-      - /docker/nextcloud/solr:/opt/solr/server/solr/mycores
-    entrypoint:
-      - docker-entrypoint.sh
-      - solr-precreate
-      - nextant
-    networks:
-      - nextcloud_network
-
   # If using Redis
   redis:
     image: redis:alpine
@@ -212,14 +186,5 @@ Redis can be used for distributed and file locking cache, alongside with APCu (l
    ),
 ```
 
-### How to configure Nextant
-You will have to deploy a Solr server, I've shown an example above with docker-compose. Once Nextant app is installed, go to "additional settings" in your admin pannel and use http://solr:8983/solr as "Adress of your Solr Servlet". There you go!
-
 ### Tip : how to use occ command
 There is a script for that, so you shouldn't bother to log into the container, set the right permissions, and so on. Just use `docker exec -ti nexcloud occ command`.
-
-### Reverse proxy
-Of course you can use your own software! nginx, Haproxy, Caddy, h2o, Traefik...
-The latter is especially a good choice when using Docker. [Give it a try!](https://traefik.io/)
-
-Whatever your choice is, you have to know that headers are already sent by the container, including HSTS, so there's no need to add them again. **It is strongly recommended (I'd like to say : MANDATORY) to use Nextcloud through an encrypted connection (HTTPS).** [Let's Encrypt](https://letsencrypt.org/) provides free SSL/TLS certificates, so you have no excuses.

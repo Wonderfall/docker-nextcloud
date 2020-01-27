@@ -9,7 +9,7 @@ services:
     image: wonderfall/nextcloud
     build:
       context: .
-      dockerfile: Dockerfile.15.0
+      dockerfile: Dockerfile.18.0
     environment:
       - UID=1000
       - GID=1000
