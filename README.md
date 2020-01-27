@@ -26,7 +26,6 @@
 
 ### Build-time variables
 - **NEXTCLOUD_VERSION** : version of nextcloud
-- **GNU_LIBICONV_VERSION** : version of GNU Libiconv
 - **GPG_nextcloud** : signing key fingerprint
 
 ### Environment variables
