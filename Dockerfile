@@ -31,6 +31,7 @@ RUN apk -U upgrade \
     libsmbclient \
     tzdata \
     imagemagick \
+    ffmpeg \
  && pecl install \
     smbclient \
     apcu \
