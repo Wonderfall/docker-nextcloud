@@ -7,7 +7,7 @@
 
 ### Features
 - Based on Alpine Linux.
-- Bundled with nginx and PHP 7.4 (wonderfall/nginx-php image).
+- Bundled with nginx and PHP 7.3 (wonderfall/nginx-php image).
 - Automatic installation using environment variables.
 - Package integrity (SHA512) and authenticity (PGP) checked during building process.
 - Data and apps persistence.
@@ -21,8 +21,8 @@
 
 ### Tags
 - **latest** : latest stable version.
-- **19.0** : latest 18.0.x version (stable)
-- **18.0** : latest 17.0.x version (oldstable, please migrate!)
+- **20.0** : latest 20.0.x version (stable, recommended)
+- **19.0** : latest 19.0.x version (old stable)
 
 Since this project should suit my needs, I'll only maintain the latest stable version available.
 
