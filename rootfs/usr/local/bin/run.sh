@@ -29,6 +29,17 @@ for dir in /nextcloud /data /config /apps2 /var/log /php /nginx /tmp /etc/s6.d; 
 done
 echo "Done updating permissions."
 
+echo "Check for UserId ${UID}"
+grep ":${UID}:" /etc/passwd 1>/dev/null 2>&1
+ERRORCODE=$?
+
+if [ $ERRORCODE -ne 0 ]; then
+   echo "Creating user nextcloud with UID=${UID} and GID=${GID}"
+   /usr/sbin/adduser -g ${GID} -u ${UID} --disabled-password  --gecos "" nextcloud
+else
+   echo "An existing user with UID=${UID} was found, nothing to do"
+fi
+
 if [ ! -f /config/config.php ]; then
     # New installation, run the setup
     /usr/local/bin/setup.sh
