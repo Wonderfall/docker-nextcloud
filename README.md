@@ -19,6 +19,9 @@
 - No **running** root processes **except on start** (reducing privileges afterwards).
 - Environment variables provided (see below).
 
+### Security
+As many images from the time it was first made, this image follows the principle of degrading privileges. It runs first as root to ensure permissions are set correctly and then only makes use of the UID/GID of your choice. While I agree it's not perfect (due to Linux insecurity), it seemed the best security/comfort balance at the time and it'll remain so for a while.
+
 ### Tags
 - **latest** : latest stable version.
 - **20.0** : latest 20.0.x version (stable, recommended)
