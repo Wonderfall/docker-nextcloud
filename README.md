@@ -24,8 +24,8 @@ As many images from the time it was first made, this image follows the principle
 
 ### Tags
 - **latest** : latest stable version.
-- **20.0** : latest 20.0.x version (stable, recommended)
-- **19.0** : latest 19.0.x version (old stable)
+- **21.0** : latest 21.0.x version (stable, recommended)
+- **20.0** : latest 20.0.x version (old stable)
 
 Since this project should suit my needs, I'll only maintain the latest stable version available.
 
