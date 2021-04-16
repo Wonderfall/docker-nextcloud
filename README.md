@@ -6,7 +6,7 @@
 **Made for my own use. Irregular updates! This image is eventually intended as a base for your own Docker image. I cannot be responsible if you're using outdated Docker images.**
 
 ___
-⚠️**DEPRECIATED**: don't worry, I'll keep maintaing it for a while. This image was made years ago and needs some rework:
+⚠️**DEPRECATED**: don't worry, I'll keep maintaing it for a while. This image was made years ago and needs some rework:
 - For instance it uses `su-exec` to degrade privileges, which is fine as an attempt to get a *rootless running* image, but more secure ways to make sure *root* is never used should be preferred.
 - As a consequence to that, a newer image should drop all the `chown` instructions at startup time: no more seconds of waiting, even minutes if you're using overlayfs as the storage driver (which is Docker's default). This was fine for flexibility, but users should really learn how to manage the permissions of their volumes.
 - I made a base image (`wonderfall/nginx-php`) years ago when I estimated that the PHP packages from Alpine Linux were not reliable for this. I think this is no longer a requirement, and it's a pain to maintain two images instead of just one.
