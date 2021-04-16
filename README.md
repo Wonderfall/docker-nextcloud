@@ -11,7 +11,7 @@ ___
 - As a consequence to that, a newer image should drop all the `chown` instructions at startup time: no more seconds of waiting, even minutes if you're using overlayfs as the storage driver (which is Docker's default). This was fine for flexibility, but users should really learn how to manage the permissions of their volumes.
 - I made a base image (`wonderfall/nginx-php`) years ago when I estimated that the PHP packages from Alpine Linux were not reliable for this. I think this is no longer a requirement, and it's a pain to maintain two images instead of just one.
 
-As I said, I'll keep "maintaing" it for now (I always thought of my images as being bases for your own images, really __don't run Docker images from random dudes__ like me from the Internet), but I'll eventually make a brand new image sometime soon. Meaning, you should be prepared to maintain or make your own image, or use the official one which is fine and regularly updated now.
+As I said, I'll keep "maintaining" it for now (I always thought of my images as being bases for your own images, really __don't run Docker images from random dudes__ like me from the Internet), but I'll eventually make a brand new image sometime soon. Meaning, you should be prepared to maintain or make your own image, or use the official one which is fine and regularly updated now.
 
 Above all, take care and take security seriously. Thanks to everyone reading this!
 ___
