@@ -57,7 +57,7 @@ EOF
 
 echo "Starting automatic configuration..."
 # Execute setup
-(cd /nextcloud; php index.php)
+(cd /nextcloud; php index.php &>/dev/null)
 echo "Automatic configuration finished."
 
 # Update config.php
