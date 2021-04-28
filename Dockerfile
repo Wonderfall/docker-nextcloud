@@ -132,7 +132,7 @@ USER nextcloud
 
 WORKDIR /nextcloud
 
-VOLUME /nextcloud/data /nextcloud/config /nextcloud/apps2 /nextcloud/themes
+VOLUME /data /nextcloud/config /nextcloud/apps2 /nextcloud/themes
 
 EXPOSE 8888
 

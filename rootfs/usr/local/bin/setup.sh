@@ -8,7 +8,7 @@ instanceid=oc$(openssl rand -hex 6 | head -c 10)
 cat > $CONFIGFILE <<EOF;
 <?php
 \$CONFIG = array (
-  'datadirectory' => '/nextcloud/data',
+  'datadirectory' => '/data',
 
   "apps_paths" => array (
       0 => array (
@@ -36,7 +36,7 @@ cat > /nextcloud/config/autoconfig.php <<EOF;
 <?php
 \$AUTOCONFIG = array (
   # storage/database
-  'directory'     => '/nextcloud/data',
+  'directory'     => '/data',
   'dbtype'        => '${DB_TYPE:-sqlite3}',
   'dbname'        => '${DB_NAME:-nextcloud}',
   'dbuser'        => '${DB_USER:-nextcloud}',
