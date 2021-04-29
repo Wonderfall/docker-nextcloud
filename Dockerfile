@@ -34,7 +34,7 @@ RUN apk --no-cache add -t build-deps \
         freetype \
         gmp \
         icu \
-        libjpeg \
+        libjpeg-turbo \
         libpq \
         libpq \
         libwebp \
