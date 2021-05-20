@@ -1,9 +1,9 @@
 # -------------- Build-time variables --------------
-ARG NEXTCLOUD_VERSION=21.0.1
+ARG NEXTCLOUD_VERSION=21.0.2
 
 ARG ALPINE_VERSION=3.13
-ARG PHP_VERSION=8.0.3
-ARG NGINX_VERSION=1.19.10
+ARG PHP_VERSION=8.0.6
+ARG NGINX_VERSION=1.20.0
 ARG APCU_VERSION=5.1.20
 ARG REDIS_VERSION=5.3.4
 ARG HARDENED_MALLOC_VERSION=7
@@ -112,12 +112,12 @@ RUN apk --no-cache add \
  && wget -q https://nextcloud.com/nextcloud.asc \
  && echo "Verifying both integrity and authenticity of ${NEXTCLOUD_TARBALL}..." \
  && CHECKSUM_STATE=$(echo -n $(sha512sum -c ${NEXTCLOUD_TARBALL}.sha512) | tail -c 2) \
- && if [ "${CHECKSUM_STATE}" != "OK" ]; then echo "Warning! Checksum does not match!" && exit 1; fi \
+ && if [ "${CHECKSUM_STATE}" != "OK" ]; then echo "Error: checksum does not match" && exit 1; fi \
  && gpg --import nextcloud.asc \
  && FINGERPRINT="$(LANG=C gpg --verify ${NEXTCLOUD_TARBALL}.asc ${NEXTCLOUD_TARBALL} 2>&1 \
   | sed -n "s#Primary key fingerprint: \(.*\)#\1#p")" \
- && if [ -z "${FINGERPRINT}" ]; then echo "Warning! Invalid GPG signature!" && exit 1; fi \
- && if [ "${FINGERPRINT}" != "${GPG_nextcloud}" ]; then echo "Warning! Wrong GPG fingerprint!" && exit 1; fi \
+ && if [ -z "${FINGERPRINT}" ]; then echo "Error: invalid GPG signature!" && exit 1; fi \
+ && if [ "${FINGERPRINT}" != "${GPG_nextcloud}" ]; then echo "Error: wrong GPG fingerprint" && exit 1; fi \
  && echo "All seems good, now unpacking ${NEXTCLOUD_TARBALL}..." \
  && mkdir /nextcloud && tar xjf ${NEXTCLOUD_TARBALL} --strip 1 -C /nextcloud \
  && apk del gnupg && rm -rf /tmp/* /root/.gnupg \
