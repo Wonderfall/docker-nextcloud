@@ -91,7 +91,7 @@ From now on you'll need to make sure all volumes have proper permissions. The de
 Other changes that should be reflected in your configuration files:
 - `/config` volume is now `/nextcloud/config`
 - `/apps2` volume is now `/nextcloud/apps2`
-- `ghcr.io/wonderfall/mastodon` is the new image location
+- `ghcr.io/wonderfall/nextcloud` is the new image location
 
 You should edit your `docker-compose.yml` and `config.php` accordingly.
 
