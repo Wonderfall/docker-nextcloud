@@ -1,0 +1,50 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    # Build the image regularly (each Friday)
+    - cron: '13 23 * * 5'
+
+jobs:
+  build:
+    name: Build, scan & push
+    runs-on: "ubuntu-20.04"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build an image from Dockerfile
+        run: |
+          docker build \
+              -t ghcr.io/wonderfall/nextcloud \
+              -t ghcr.io/wonderfall/nextcloud:$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c6) \
+              -t ghcr.io/wonderfall/nextcloud:$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c2) \
+              .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'ghcr.io/wonderfall/nextcloud'
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          vuln-type: "os"
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Docker login
+        run: >-
+          echo "${{ secrets.GHCR_TOKEN }}"
+          | docker login -u "${{ github.actor }}" --password-stdin ghcr.io
+          
+      - name: Push image to GitHub
+        run: |
+          docker push ghcr.io/wonderfall/nextcloud
+          docker push ghcr.io/wonderfall/nextcloud:$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c6)
+          docker push ghcr.io/wonderfall/nextcloud:$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c2)
