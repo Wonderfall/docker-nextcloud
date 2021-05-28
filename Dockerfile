@@ -19,7 +19,7 @@ ARG APCU_VERSION
 ARG REDIS_VERSION
 
 RUN apk -U upgrade \
- && add -t build-deps \
+ && apk add -t build-deps \
         $PHPIZE_DEPS \
         freetype-dev \
         gmp-dev \
