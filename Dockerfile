@@ -18,7 +18,8 @@ FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} as base
 ARG APCU_VERSION
 ARG REDIS_VERSION
 
-RUN apk --no-cache add -t build-deps \
+RUN apk -U upgrade \
+ && add -t build-deps \
         $PHPIZE_DEPS \
         freetype-dev \
         gmp-dev \
@@ -58,7 +59,8 @@ RUN apk --no-cache add -t build-deps \
  && pecl install APCu-${APCU_VERSION} \
  && pecl install redis-${REDIS_VERSION} \
  && echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini \
- && apk del build-deps
+ && apk del build-deps \
+ && rm -rf /var/cache/apk/*
 
 
 ### Build Hardened Malloc
