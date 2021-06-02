@@ -68,11 +68,13 @@ ARG ALPINE_VERSION
 FROM alpine:${ALPINE_VERSION} as build-malloc
 
 ARG HARDENED_MALLOC_VERSION
+ARG CONFIG_NATIVE=false
 
-RUN apk --no-cache add build-base && cd /tmp \
- && wget -q https://github.com/GrapheneOS/hardened_malloc/archive/refs/tags/${HARDENED_MALLOC_VERSION}.tar.gz \
- && mkdir hardened_malloc && tar xf ${HARDENED_MALLOC_VERSION}.tar.gz -C hardened_malloc --strip-components 1 \
- && cd hardened_malloc && make
+RUN apk --no-cache add build-base git gnupg && cd /tmp \
+ && wget -q https://github.com/thestinger.gpg && gpg --import thestinger.gpg \
+ && git clone --depth 1 --branch ${HARDENED_MALLOC_VERSION} https://github.com/GrapheneOS/hardened_malloc \
+ && cd hardened_malloc && git verify-tag $(git describe --tags) \
+ && make CONFIG_NATIVE=${CONFIG_NATIVE}
 
 
 ### Fetch nginx
