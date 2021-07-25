@@ -11,6 +11,8 @@ Don't run random images from random dudes on the Internet. Ideally, you want to 
 
 Images are scanned every day by [Trivy](https://github.com/aquasecurity/trivy) for OS vulnerabilities. Latest tag/version is automatically built weekly, so you should often update your images regardless if you're already using the latest Nextcloud version.
 
+If you're building manually, you should always build production images without cache (use `docker build --no-cache` for instance). Latest dependencies will hence be used instead of outdated ones due to a cached layer.
+
 ## Features
 - Fetching PHP/nginx from their official images.
 - **Rootless**: no privilege at any time, even at startup.
