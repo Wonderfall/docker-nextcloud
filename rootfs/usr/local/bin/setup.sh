@@ -55,6 +55,12 @@ cat >> /nextcloud/config/autoconfig.php <<EOF;
 ?>
 EOF
 
+until nc -z "${DB_HOST:-nextcloud-db}" "${DB_PORT:-3306}"
+do
+    echo "waiting for the database container..."
+    sleep 1
+done
+
 echo "Starting automatic configuration..."
 # Execute setup
 (cd /nextcloud; php index.php &>/dev/null)
