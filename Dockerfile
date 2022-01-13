@@ -67,12 +67,13 @@ FROM alpine:${ALPINE_VERSION} as build-malloc
 
 ARG HARDENED_MALLOC_VERSION
 ARG CONFIG_NATIVE=false
+ARG VARIANT=light
 
 RUN apk --no-cache add build-base git gnupg && cd /tmp \
  && wget -q https://github.com/thestinger.gpg && gpg --import thestinger.gpg \
  && git clone --depth 1 --branch ${HARDENED_MALLOC_VERSION} https://github.com/GrapheneOS/hardened_malloc \
  && cd hardened_malloc && git verify-tag $(git describe --tags) \
- && make CONFIG_NATIVE=${CONFIG_NATIVE}
+ && make CONFIG_NATIVE=${CONFIG_NATIVE} VARIANT=${VARIANT}
 
 
 ### Fetch nginx
@@ -84,7 +85,7 @@ FROM base as nextcloud
 
 COPY --from=nginx /usr/sbin/nginx /usr/sbin/nginx
 COPY --from=nginx /etc/nginx /etc/nginx
-COPY --from=build-malloc /tmp/hardened_malloc/out/libhardened_malloc.so /usr/local/lib/
+COPY --from=build-malloc /tmp/hardened_malloc/out-light/libhardened_malloc-light.so /usr/local/lib/
 
 ARG NEXTCLOUD_VERSION
 ARG GPG_nextcloud="2880 6A87 8AE4 23A2 8372  792E D758 99B9 A724 937A"
@@ -100,7 +101,7 @@ ENV UPLOAD_MAX_SIZE=10G \
     CRON_MEMORY_LIMIT=1g \
     DB_TYPE=sqlite3 \
     DOMAIN=localhost \
-    LD_PRELOAD="/usr/local/lib/libhardened_malloc.so /usr/lib/preloadable_libiconv.so"
+    LD_PRELOAD="/usr/local/lib/libhardened_malloc-light.so /usr/lib/preloadable_libiconv.so"
 
 RUN apk --no-cache add \
         gnupg \
