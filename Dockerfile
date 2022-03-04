@@ -8,6 +8,10 @@ ARG HARDENED_MALLOC_VERSION=11
 
 ARG UID=1000
 ARG GID=1000
+
+# nextcloud-23.0.2.tar.bz2
+ARG SHA256_SUM="9e02462d38eaab6457fca8077bd46fe78c3aaad442e91a6e12e32fa7d51bc4ee"
+ARG GPG_FINGERPRINT="2880 6A87 8AE4 23A2 8372  792E D758 99B9 A724 937A"
 # ---------------------------------------------------
 
 ### Build PHP base
@@ -85,7 +89,8 @@ COPY --from=nginx /etc/nginx /etc/nginx
 COPY --from=build-malloc /tmp/hardened_malloc/out-light/libhardened_malloc-light.so /usr/local/lib/
 
 ARG NEXTCLOUD_VERSION
-ARG GPG_nextcloud="2880 6A87 8AE4 23A2 8372  792E D758 99B9 A724 937A"
+ARG SHA256_SUM
+ARG GPG_FINGERPRINT
 
 ARG UID
 ARG GID
@@ -107,17 +112,16 @@ RUN apk --no-cache add \
         s6 \
  && NEXTCLOUD_TARBALL="nextcloud-${NEXTCLOUD_VERSION}.tar.bz2" && cd /tmp \
  && wget -q https://download.nextcloud.com/server/releases/${NEXTCLOUD_TARBALL} \
- && wget -q https://download.nextcloud.com/server/releases/${NEXTCLOUD_TARBALL}.sha512 \
  && wget -q https://download.nextcloud.com/server/releases/${NEXTCLOUD_TARBALL}.asc \
  && wget -q https://nextcloud.com/nextcloud.asc \
  && echo "Verifying both integrity and authenticity of ${NEXTCLOUD_TARBALL}..." \
- && CHECKSUM_STATE=$(echo -n $(sha512sum -c ${NEXTCLOUD_TARBALL}.sha512) | tail -c 2) \
+ && CHECKSUM_STATE=$(echo -n $(echo "${SHA256_SUM}  ${NEXTCLOUD_TARBALL}" | sha256sum -c) | tail -c 2) \
  && if [ "${CHECKSUM_STATE}" != "OK" ]; then echo "Error: checksum does not match" && exit 1; fi \
  && gpg --import nextcloud.asc \
  && FINGERPRINT="$(LANG=C gpg --verify ${NEXTCLOUD_TARBALL}.asc ${NEXTCLOUD_TARBALL} 2>&1 \
   | sed -n "s#Primary key fingerprint: \(.*\)#\1#p")" \
  && if [ -z "${FINGERPRINT}" ]; then echo "Error: invalid GPG signature!" && exit 1; fi \
- && if [ "${FINGERPRINT}" != "${GPG_nextcloud}" ]; then echo "Error: wrong GPG fingerprint" && exit 1; fi \
+ && if [ "${FINGERPRINT}" != "${GPG_FINGERPRINT}" ]; then echo "Error: wrong GPG fingerprint" && exit 1; fi \
  && echo "All seems good, now unpacking ${NEXTCLOUD_TARBALL}..." \
  && mkdir /nextcloud && tar xjf ${NEXTCLOUD_TARBALL} --strip 1 -C /nextcloud \
  && apk del gnupg && rm -rf /tmp/* /root/.gnupg \
