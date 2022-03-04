@@ -13,9 +13,6 @@ ARG GID=1000
 ### Build PHP base
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} as base
 
-ARG APCU_VERSION
-ARG REDIS_VERSION
-
 RUN apk -U upgrade \
  && apk add -t build-deps \
         $PHPIZE_DEPS \
