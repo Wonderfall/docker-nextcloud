@@ -11,6 +11,8 @@ ARG GID=1000
 
 # nextcloud-23.0.2.tar.bz2
 ARG SHA256_SUM="9e02462d38eaab6457fca8077bd46fe78c3aaad442e91a6e12e32fa7d51bc4ee"
+
+# Nextcloud Security <security@nextcloud.com> (D75899B9A724937A)
 ARG GPG_FINGERPRINT="2880 6A87 8AE4 23A2 8372  792E D758 99B9 A724 937A"
 # ---------------------------------------------------
 
