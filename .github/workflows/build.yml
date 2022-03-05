@@ -53,8 +53,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            {{ env.FULL_VERSION }}
-            {{ env.MAJOR_VERSION }}
+            ${{ env.FULL_VERSION }}
+            ${{ env.MAJOR_VERSION }}
 
       - name: Build and push Docker image
         id: build-and-push
