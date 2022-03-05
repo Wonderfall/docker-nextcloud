@@ -9,9 +9,16 @@ This non-official image is intended as an **all-in-one** (as in monolithic) Next
 ## Security
 Don't run random images from random dudes on the Internet. Ideally, you want to maintain and build it yourself.
 
-Images are scanned every day by [Trivy](https://github.com/aquasecurity/trivy) for OS vulnerabilities. Latest tag/version is automatically built weekly, so you should often update your images regardless if you're already using the latest Nextcloud version.
+- **Images are scanned every day** by [Trivy](https://github.com/aquasecurity/trivy) for OS vulnerabilities. Known vulnerabilities will be automatically uploaded to [GitHub Security Lab](https://github.com/Wonderfall/docker-nextcloud/security/code-scanning) for full transparency. This also warns me if I have to take action to fix a vulnerability. 
+- **Latest tag/version is automatically built weekly**, so you should often update your images regardless if you're already using the latest Nextcloud version.
+- **Build production images without cache** (use `docker build --no-cache` for instance) if you want to build your images manually. Latest dependencies will hence be used instead of outdated ones due to a cached layer.
+- **Images are signed with the GitHub-provided OIDC token in Actions** using the experimental "keyless" signing feature provided by [cosign](https://github.com/sigstore/cosign). You can verify the image signature using `cosign` as well:
 
-If you're building manually, you should always build production images without cache (use `docker build --no-cache` for instance). Latest dependencies will hence be used instead of outdated ones due to a cached layer.
+```
+COSIGN_EXPERIMENTAL=true cosign verify ghcr.io/wonderfall/nextcloud
+```
+
+Verifying the signature isn't a requirement, and might not be as seamless as using *Docker Content Trust* (which is not supported by GitHub's OCI registry). However, it's strongly recommended to do so in a sensitive environment to ensure the authenticity of the images and further limit the risk of supply chain attacks.
 
 ## Features
 - Fetching PHP/nginx from their official images.
