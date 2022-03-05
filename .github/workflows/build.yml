@@ -8,44 +8,65 @@ on:
     # Build the image regularly (each Friday)
     - cron: '13 23 * * 5'
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: wonderfall/nextcloud
+
 jobs:
   build:
     name: Build, scan & push
-    runs-on: "ubuntu-20.04"
+    runs-on: "ubuntu-latest"
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build an image from Dockerfile
+      - name: Extract version for tags
         run: |
-          docker build \
-              -t ghcr.io/wonderfall/nextcloud \
-              -t ghcr.io/wonderfall/nextcloud:$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c6) \
-              -t ghcr.io/wonderfall/nextcloud:$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c2) \
-              .
+          echo "FULL_VERSION=$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c6)" >> $GITHUB_ENV
+          echo "MAJOR_VERSION=$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c2)" >> $GITHUB_ENV
 
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
+      - name: Install cosign
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@main
         with:
-          image-ref: 'ghcr.io/wonderfall/nextcloud'
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH'
-          vuln-type: "os"
+          cosign-release: 'v1.6.0'
 
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
         with:
-          sarif_file: 'trivy-results.sarif'
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
-      - name: Docker login
-        run: >-
-          echo "${{ secrets.GHCR_TOKEN }}"
-          | docker login -u "${{ github.actor }}" --password-stdin ghcr.io
-          
-      - name: Push image to GitHub
-        run: |
-          docker push ghcr.io/wonderfall/nextcloud
-          docker push ghcr.io/wonderfall/nextcloud:$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c6)
-          docker push ghcr.io/wonderfall/nextcloud:$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c2)
+      - name: Set Docker metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            {{ env.FULL_VERSION }}
+            {{ env.MAJOR_VERSION }}
+
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Sign the published Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          COSIGN_EXPERIMENTAL: "true"
+        run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-and-push.outputs.digest }}
