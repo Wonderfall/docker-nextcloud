@@ -1,12 +1,12 @@
 # wonderfall/nextcloud
-*The self-hosted productivity platform that keeps you in control.*
 
 <p align="center"><a href="https://unsplash.com/photos/9JrBiphz0e0" target="_blank"><img height="128" src="https://raw.githubusercontent.com/wonderfall/docker-nextcloud/main/.github/docker-nextcloud.jpg"></a></p>
-
-Nextcloud [official website](https://nextcloud.com/) and [source code](https://github.com/nextcloud).
+<p align="center"><i>The self-hosted productivity platform that keeps you in control.</i></p>
 
 ## About
 This non-official image is intended as an **all-in-one** (as in monolithic) Nextcloud **production** image. If you're not sure you want this image, you should probably use [the official image](https://hub.docker.com/r/nextcloud). The main goal is to provide a basic image with decent security standards.
+
+Nextcloud [official website](https://nextcloud.com/) and [source code](https://github.com/nextcloud).
 
 ___
 
