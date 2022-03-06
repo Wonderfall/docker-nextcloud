@@ -1,7 +1,7 @@
 # wonderfall/nextcloud
 *The self-hosted productivity platform that keeps you in control.*
 
-<p align="center"><a href="https://unsplash.com/photos/9JrBiphz0e0" target="_blank"><img height="128" src="https://raw.githubusercontent.com/wonderfall/docker-nextcloud/master/.github/docker-nextcloud.jpg"></a></p>
+<p align="center"><a href="https://unsplash.com/photos/9JrBiphz0e0" target="_blank"><img height="128" src="https://raw.githubusercontent.com/wonderfall/docker-nextcloud/main/.github/docker-nextcloud.jpg"></a></p>
 
 Nextcloud [official website](https://nextcloud.com/) and [source code](https://github.com/nextcloud).
 
