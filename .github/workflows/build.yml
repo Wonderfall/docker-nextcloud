@@ -3,7 +3,11 @@ name: build
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches:
+      - 'main'
+    # Ignore Markdown files
+    paths-ignore:
+      - '**.md'
   schedule:
     # Build the image regularly (each Friday)
     - cron: '13 23 * * 5'
