@@ -4,9 +4,9 @@
 <p align="center"><i>The self-hosted productivity platform that keeps you in control.</i></p>
 
 ## About
-This non-official image is intended as an **all-in-one** (as in monolithic) Nextcloud **production** image. If you're not sure you want this image, you should probably use [the official image](https://hub.docker.com/r/nextcloud). The main goal is to provide a basic image with decent security standards.
+This non-official image is intended as an **all-in-one** (as in monolithic) Nextcloud **production** image. If you're not sure you want this image, you should probably use [the official image](https://hub.docker.com/r/nextcloud). The main goal is to provide an easy-to-use image with decent security standards.
 
-Nextcloud [official website](https://nextcloud.com/) and [source code](https://github.com/nextcloud).
+Check out Nextcloud [official website](https://nextcloud.com/) and [source code](https://github.com/nextcloud).
 
 ___
 
@@ -29,7 +29,7 @@ ___
 - **Rootless**: no privilege at any time, even at startup.
 - Uses [s6](https://skarnet.org/software/s6/) as a lightweight process supervisor.
 - Supports MySQL/MariaDB, PostgresQL and SQLite3 database backends.
-- Includes OPCache and APCu for improved caching & performance, also supports redis.
+- Includes OPcache and APCu for improved caching & performance, also supports redis.
 - Tarball integrity & authenticity checked during build process.
 - Includes **hardened_malloc**, [a hardened memory allocator](https://github.com/GrapheneOS/hardened_malloc).
 - Includes **Snuffleupagus**, [a PHP security module](https://github.com/jvoisin/snuffleupagus).
