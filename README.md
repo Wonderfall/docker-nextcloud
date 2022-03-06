@@ -12,6 +12,7 @@ Don't run random images from random dudes on the Internet. Ideally, you want to 
 - **Images are scanned every day** by [Trivy](https://github.com/aquasecurity/trivy) for OS vulnerabilities. Known vulnerabilities will be automatically uploaded to [GitHub Security Lab](https://github.com/Wonderfall/docker-nextcloud/security/code-scanning) for full transparency. This also warns me if I have to take action to fix a vulnerability. 
 - **Latest tag/version is automatically built weekly**, so you should often update your images regardless if you're already using the latest Nextcloud version.
 - **Build production images without cache** (use `docker build --no-cache` for instance) if you want to build your images manually. Latest dependencies will hence be used instead of outdated ones due to a cached layer.
+- **A security module for PHP called [Snuffleupagus](https://github.com/jvoisin/snuffleupagus) is used by default**. This module aims at killing entire bug and security exploit classes (including XXE, weak PRNG, file-upload based code execution), thus raising the cost of attacks. For now we're using a configuration file derived from [the default one](https://github.com/jvoisin/snuffleupagus/blob/master/config/default_php8.rules), with some explicit exceptions related to Nextcloud. This configuration file is tested and shouldn't break basic functionality, but it can cause issues in specific and untested use cases: it that happens to you, get logs from either `syslog` or `/nginx/logs/error.log` inside the container, and open an issue. You can also disable the security module altogether by changing the `PHP_HARDENING` environment variable to `false` before recreating the container.
 - **Images are signed with the GitHub-provided OIDC token in Actions** using the experimental "keyless" signing feature provided by [cosign](https://github.com/sigstore/cosign). You can verify the image signature using `cosign` as well:
 
 ```
@@ -54,7 +55,7 @@ Only the **latest stable version** will be maintained by myself.
 
 For convenience they were put at [the very top of the Dockerfile](https://github.com/Wonderfall/docker-nextcloud/blob/main/Dockerfile#L1-L13) and their usage should be quite explicit if you intend to build this image yourself.
 
-## Environment variables (Dockerfile)
+## Environment variables (Dockerfile defaults, used at runtime)
 
 |          Variable         |         Description         |       Default      |
 | ------------------------- | --------------------------- | ------------------ |
@@ -65,6 +66,7 @@ For convenience they were put at [the very top of the Dockerfile](https://github
 |   **CRON_MEMORY_LIMIT**   | cron max memory usage       |         1G         |
 |         **DB_TYPE**       | sqlite3, mysql, pgsql       |       sqlite3      |
 |         **DOMAIN**        | host domain                 |       localhost    |
+|      **PHP_HARDENING**    | enables snuffleupagus       |        true        |
 
 Leave them at default if you're not sure what you're doing.
 

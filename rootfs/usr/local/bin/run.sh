@@ -9,6 +9,12 @@ sed -i -e "s/<APC_SHM_SIZE>/$APC_SHM_SIZE/g" /usr/local/etc/php/conf.d/apcu.ini 
        -e "s/<UPLOAD_MAX_SIZE>/$UPLOAD_MAX_SIZE/g" /etc/nginx/nginx.conf /usr/local/etc/php-fpm.conf \
        -e "s/<MEMORY_LIMIT>/$MEMORY_LIMIT/g" /usr/local/etc/php-fpm.conf
 
+# Enable Snuffleupagus
+if [ "$PHP_HARDENING" == "true" ] && [ ! -f /usr/local/etc/php/conf.d/snuffleupagus.ini ]; then
+    echo "Enabling Snuffleupagus..."
+    cp /usr/local/etc/php/snuffleupagus/* /usr/local/etc/php/conf.d
+fi
+
 # If new install, run setup
 if [ ! -f /nextcloud/config/config.php ]; then
     touch /nextcloud/config/CAN_INSTALL

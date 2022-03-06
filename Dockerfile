@@ -5,6 +5,7 @@ ARG NGINX_VERSION=1.20
 
 ARG ALPINE_VERSION=3.15
 ARG HARDENED_MALLOC_VERSION=11
+ARG SNUFFLEUPAGUS_VERSION=0.7.1
 
 ARG UID=1000
 ARG GID=1000
@@ -19,10 +20,13 @@ ARG GPG_FINGERPRINT="2880 6A87 8AE4 23A2 8372  792E D758 99B9 A724 937A"
 ### Build PHP base
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} as base
 
+ARG SNUFFLEUPAGUS_VERSION
+
 RUN apk -U upgrade \
  && apk add -t build-deps \
         $PHPIZE_DEPS \
         freetype-dev \
+        git \
         gmp-dev \
         icu-dev \
         libjpeg-turbo-dev \
@@ -60,8 +64,10 @@ RUN apk -U upgrade \
  && pecl install APCu \
  && pecl install redis \
  && echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini \
+ && cd /tmp && git clone --depth 1 --branch v${SNUFFLEUPAGUS_VERSION} https://github.com/jvoisin/snuffleupagus \
+ && cd snuffleupagus/src && phpize && ./configure --enable-snuffleupagus && make && make install \
  && apk del build-deps \
- && rm -rf /var/cache/apk/*
+ && rm -rf /var/cache/apk/* /tmp/*
 
 
 ### Build Hardened Malloc
@@ -105,6 +111,7 @@ ENV UPLOAD_MAX_SIZE=10G \
     CRON_MEMORY_LIMIT=1g \
     DB_TYPE=sqlite3 \
     DOMAIN=localhost \
+    PHP_HARDENING=true \
     LD_PRELOAD="/usr/local/lib/libhardened_malloc-light.so /usr/lib/preloadable_libiconv.so"
 
 RUN apk --no-cache add \
