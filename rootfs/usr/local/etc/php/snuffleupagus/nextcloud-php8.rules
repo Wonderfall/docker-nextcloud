@@ -28,7 +28,7 @@ sp.global_strict.enable();
 # sp.wrappers_whitelist.list("file,php,phar");
 
 # Prevent sloppy comparisons.
-# sp.sloppy_comparison.enable();
+sp.sloppy_comparison.enable();
 
 # Use SameSite on session cookie
 # https://snuffleupagus.readthedocs.io/features.html#protection-against-cross-site-request-forgery
