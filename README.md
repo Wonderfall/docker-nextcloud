@@ -66,20 +66,24 @@ Only the **latest stable version** will be maintained by myself.
 
 ## Build-time variables
 
-|          Variable           |         Description        |
-| --------------------------- | -------------------------- |
-| **NEXTCLOUD_VERSION**       | version of Nextcloud       |
-| **ALPINE_VERSION**          | version of Alpine Linux    |
-| **PHP_VERSION**             | version of PHP             |
-| **NGINX_VERSION**           | version of nginx           |
-| **APCU_VERSION**            | version of APCu (php ext)  |
-| **REDIS_VERSION**           | version of redis (php ext) |
-| **HARDENED_MALLOC_VERSION** | version of hardened_malloc |
-| **CONFIG_NATIVE**           | native code for hmalloc    |
-| **UID**                     | user id (default: 1000)    |
-| **GID**                     | group id (default: 1000)   |
+|          Variable           |               Description              |       Default      |
+| --------------------------- | -------------------------------------- | ------------------ |
+| **NEXTCLOUD_VERSION**       | version of Nextcloud                   |          *         |
+| **ALPINE_VERSION**          | version of Alpine Linux                |          *         |
+| **PHP_VERSION**             | version of PHP                         |          *         |
+| **NGINX_VERSION**           | version of nginx                       |          *         |
+| **HARDENED_MALLOC_VERSION** | version of hardened_malloc             |          *         |
+| **SNUFFLEUPAGUS_VERSION**   | version of Snuffleupagus (php ext)     |          *         |
+| **SHA256_SUM**              | checksum of Nextcloud tarball (sha256) |           *        |
+| **GPG_FINGERPRINT**         | fingerprint of Nextcloud GPG key       |           *        |
+| **UID**                     | user id                                |        1000        |
+| **GID**                     | group id                               |        1000        |
+| **CONFIG_NATIVE**           | native code for hardened_malloc        |        false       |
+| **VARIANT**                 | variant of hardened_malloc (see repo)  |        light       |
 
-For convenience they were put at [the very top of the Dockerfile](https://github.com/Wonderfall/docker-nextcloud/blob/main/Dockerfile#L1-L13) and their usage should be quite explicit if you intend to build this image yourself.
+*\* latest known available, likely to change regularly*
+
+For convenience they were put at [the very top of the Dockerfile](https://github.com/Wonderfall/docker-nextcloud/blob/main/Dockerfile#L1-L13) and their usage should be quite explicit if you intend to build this image yourself. If you intend to change `NEXTCLOUD_VERSION`, change `SHA256_SUM` accordingly.
 
 ## Environment variables
 
@@ -89,11 +93,12 @@ For convenience they were put at [the very top of the Dockerfile](https://github
 | ------------------------- | --------------------------- | ------------------ |
 |     **UPLOAD_MAX_SIZE**   | file upload maximum size    |         10G        |
 |      **APC_SHM_SIZE**     | apc shared memory size      |         128M       |
+|    **OPCACHE_MEM_SIZE**   | opcache available memory    |         128M       |
 |      **MEMORY_LIMIT**     | max php command mem usage   |         512M       |
 |       **CRON_PERIOD**     | cron time interval (min.)   |         5m         |
 |   **CRON_MEMORY_LIMIT**   | cron max memory usage       |         1G         |
 |         **DB_TYPE**       | sqlite3, mysql, pgsql       |       sqlite3      |
-|         **DOMAIN**        | host domain                 |       localhost    |
+|         **DOMAIN**        | host domain                 |      localhost     |
 |      **PHP_HARDENING**    | enables snuffleupagus       |        true        |
 
 Leave them at default if you're not sure what you're doing.
@@ -104,7 +109,7 @@ Leave them at default if you're not sure what you're doing.
 | ------------------------- | --------------------------- |
 |        **ADMIN_USER**     | admin username              |
 |      **ADMIN_PASSWORD**   | admin password              |
-|         **DB_TYPE**       | sqlit3, mysql, pgsql        |
+|         **DB_TYPE**       | sqlite3, mysql, pgsql       |
 |         **DB_NAME**       | name of the database        |
 |         **DB_USER**       | name of the database user   |
 |       **DB_PASSWORD**     | password of the db user     |
@@ -122,6 +127,9 @@ The usage of [Docker secrets](https://docs.docker.com/engine/swarm/secrets/) wil
 | **/nextcloud/config**        |        config files        |
 | **/nextcloud/apps2**         |       3rd-party apps       |
 | **/nextcloud/themes**        |        custom themes       |
+| **/php/session**             |      PHP session files     |
+
+*Note: mounting `/php/session` isn't required but could be desirable in some circumstances.*
 
 ## Ports
 
