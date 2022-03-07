@@ -135,7 +135,7 @@ RUN apk --no-cache add \
  && mkdir /nextcloud && tar xjf ${NEXTCLOUD_TARBALL} --strip 1 -C /nextcloud \
  && apk del gnupg && rm -rf /tmp/* /root/.gnupg \
  && adduser -g ${GID} -u ${UID} --disabled-password --gecos "" nextcloud \
- && chown -R nextcloud:nextcloud /nextcloud
+ && chown -R nextcloud:nextcloud /nextcloud/config
 
 COPY --chown=nextcloud:nextcloud rootfs /
 
