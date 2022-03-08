@@ -149,8 +149,9 @@ VOLUME /data /nextcloud/config /nextcloud/apps2 /nextcloud/themes
 
 EXPOSE 8888
 
-LABEL description="A server software for creating file hosting services" \
-      nextcloud="Nextcloud v${NEXTCLOUD_VERSION}" \
-      maintainer="Wonderfall <wonderfall@targaryen.house>"
+LABEL org.opencontainers.image.description="All-in-one Nextcloud image, based on Alpine Linux" \
+      org.opencontainers.image.version="${NEXTCLOUD_VERSION}" \
+      org.opencontainers.image.authors="Wonderfall <wonderfall@protonmail.com>" \
+      org.opencontainers.image.source="https://github.com/Wonderfall/docker-nextcloud"
 
 CMD ["run.sh"]
