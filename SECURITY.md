@@ -1,14 +1,22 @@
 # Security Policy
 
-## Supported Versions
+## Supported versions
 
-As of now, only the latest stable version will be supported.
+As of now, only the latest stable version is supported.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 21. x   | :white_check_mark: |
+| 23. x   | :white_check_mark: |
+| 22. x   | :x:                |
+| 21. x   | :x:                |
 
-## Reporting a Vulnerability
+Please update to the latest version available. Major migrations are always tested before being pushed.
+
+## Automated vulnerability scanning
+
+Uploaded images are regularly scanned for [OS vulnerabilities](https://github.com/Wonderfall/docker-nextcloud/security/code-scanning).
+
+## Reporting a vulnerability
 
 *Upstream* vulnerabilities should be reported to *upstream* projects according to their own security policies.
 
