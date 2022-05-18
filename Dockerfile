@@ -1,6 +1,6 @@
 # -------------- Build-time variables --------------
 ARG NEXTCLOUD_VERSION=24.0.0
-ARG PHP_VERSION=8.0
+ARG PHP_VERSION=8.1
 ARG NGINX_VERSION=1.20
 
 ARG ALPINE_VERSION=3.15
