@@ -10,7 +10,7 @@ ARG SNUFFLEUPAGUS_VERSION=0.8.1
 ARG UID=1000
 ARG GID=1000
 
-# nextcloud-24.0.0.tar.bz2
+# nextcloud-24.0.1.tar.bz2
 ARG SHA256_SUM="d32a8f6c4722a45cb67de7018163cfafcfa22a871fbac0f623c3875fa4304e5a"
 
 # Nextcloud Security <security@nextcloud.com> (D75899B9A724937A)
