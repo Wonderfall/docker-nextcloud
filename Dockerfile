@@ -1,11 +1,11 @@
 # -------------- Build-time variables --------------
 ARG NEXTCLOUD_VERSION=24.0.1
 ARG PHP_VERSION=8.1
-ARG NGINX_VERSION=1.20
+ARG NGINX_VERSION=1.22
 
-ARG ALPINE_VERSION=3.15
+ARG ALPINE_VERSION=3.16
 ARG HARDENED_MALLOC_VERSION=11
-ARG SNUFFLEUPAGUS_VERSION=0.8.1
+ARG SNUFFLEUPAGUS_VERSION=0.8.2
 
 ARG UID=1000
 ARG GID=1000
@@ -116,7 +116,7 @@ ENV UPLOAD_MAX_SIZE=10G \
 
 RUN apk --no-cache add \
         gnupg \
-        pcre \
+        pcre2 \
         s6 \
  && NEXTCLOUD_TARBALL="nextcloud-${NEXTCLOUD_VERSION}.tar.bz2" && cd /tmp \
  && wget -q https://download.nextcloud.com/server/releases/${NEXTCLOUD_TARBALL} \
