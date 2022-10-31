@@ -34,16 +34,18 @@ sp.sloppy_comparison.enable();
 # https://snuffleupagus.readthedocs.io/features.html#protection-against-cross-site-request-forgery
 sp.cookie.name("PHPSESSID").samesite("lax");
 
-# Nextcloud whitelist (tested with Nextcloud 24.0.0)
+# Nextcloud whitelist (tested with Nextcloud 25.0.0)
 sp.disable_function.function("function_exists").param("function").value("proc_open").filename("/nextcloud/3rdparty/symfony/console/Terminal.php").allow();
+sp.disable_function.function("function_exists").param("function").value("exec").filename("/nextcloud/lib/private/legacy/OC_Helper.php").allow();
+sp.disable_function.function("function_exists").param("function").value("exec").filename("/nextcloud/lib/public/Util.php").allow();
 sp.disable_function.function("proc_open").filename("/nextcloud/3rdparty/symfony/console/Terminal.php").allow();
 sp.disable_function.function("ini_set").param("option").value_r("display_errors").filename("/nextcloud/lib/base.php").allow();
 sp.disable_function.function("ini_get").param("option").value("open_basedir").filename("/nextcloud/3rdparty/bantu/ini-get-wrapper/src/IniGetWrapper.php").allow();
-sp.disable_function.function("function_exists").param("function").value("exec").filename("/nextcloud/lib/private/legacy/OC_Helper.php").allow();
 sp.disable_function.function("ini_get").param("option").value_r("suhosin").filename("/nextcloud/3rdparty/bantu/ini-get-wrapper/src/IniGetWrapper.php").allow();
 sp.disable_function.function("ini_get").param("option").value("open_basedir").filename("/nextcloud/apps2/twofactor_webauthn/vendor/symfony/process/ExecutableFinder.php").allow();
 sp.disable_function.function("ini_get").param("option").value("open_basedir").filename("/nextcloud/3rdparty/symfony/process/ExecutableFinder.php").allow();
 sp.disable_function.function("ini_get").param("option").value("allow_url_fopen").filename("/nextcloud/3rdparty/guzzlehttp/guzzle/src/Utils.php").allow();
+sp.disable_function.function("exec").param("command").value("apachectl -M | grep mpm").filename("/nextcloud/apps2/spreed/lib/Settings/Admin/AdminSettings.php").allow();
 
 # Harden the `chmod` function (0777 (oct = 511, 0666 = 438)
 sp.disable_function.function("chmod").param("permissions").value("438").drop();
