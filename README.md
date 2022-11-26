@@ -1,5 +1,7 @@
 # wonderfall/nextcloud
 
+(https://badgen.net/docker/pulls/wonderfall/nextcloud?icon=docker&label=pulls)](https://github.com/wonderfall/docker-nextcloud/pkgs/container/nextcloud)   [![Github last-commit](https://img.shields.io/github/last-commit/Wonderfall/docker-nextcloud)](https://github.com/Wonderfall/docker-nextcloud)
+
 <p align="center"><a href="https://unsplash.com/photos/9JrBiphz0e0" target="_blank"><img height="128" src="https://raw.githubusercontent.com/wonderfall/docker-nextcloud/main/.github/docker-nextcloud.jpg"></a></p>
 <p align="center"><i>The self-hosted productivity platform that keeps you in control.</i></p>
 
