@@ -91,17 +91,18 @@ For convenience they were put at [the very top of the Dockerfile](https://github
 
 ### Runtime
 
-|          Variable         |         Description         |       Default      |
-| ------------------------- | --------------------------- | ------------------ |
-|     **UPLOAD_MAX_SIZE**   | file upload maximum size    |         10G        |
-|      **APC_SHM_SIZE**     | apc shared memory size      |         128M       |
-|    **OPCACHE_MEM_SIZE**   | opcache available memory    |         128M       |
-|      **MEMORY_LIMIT**     | max php command mem usage   |         512M       |
-|       **CRON_PERIOD**     | cron time interval (min.)   |         5m         |
-|   **CRON_MEMORY_LIMIT**   | cron max memory usage       |         1G         |
-|         **DB_TYPE**       | sqlite3, mysql, pgsql       |       sqlite3      |
-|         **DOMAIN**        | host domain                 |      localhost     |
-|      **PHP_HARDENING**    | enables snuffleupagus       |        true        |
+|          Variable                 |         Description         |       Default      |
+| --------------------------------- | --------------------------- | ------------------ |
+|     **UPLOAD_MAX_SIZE**           | file upload maximum size    |         10G        |
+|      **APC_SHM_SIZE**             | apc shared memory size      |         128M       |
+|    **OPCACHE_MEM_SIZE**           | opcache available memory    |         128M       |
+|    **OPCACHE_STRING_BUFFER_SIZE** | opcache string buffer size  |         16M        |
+|      **MEMORY_LIMIT**             | max php command mem usage   |         512M       |
+|       **CRON_PERIOD**             | cron time interval (min.)   |         5m         |
+|   **CRON_MEMORY_LIMIT**           | cron max memory usage       |         1G         |
+|         **DB_TYPE**               | sqlite3, mysql, pgsql       |       sqlite3      |
+|         **DOMAIN**                | host domain                 |      localhost     |
+|      **PHP_HARDENING**            | enables snuffleupagus       |        true        |
 
 Leave them at default if you're not sure what you're doing.
 
