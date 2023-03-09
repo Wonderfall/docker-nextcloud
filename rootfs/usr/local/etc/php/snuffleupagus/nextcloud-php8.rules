@@ -46,7 +46,7 @@ sp.disable_function.function("ini_get").param("option").value("open_basedir").fi
 sp.disable_function.function("ini_get").param("option").value("open_basedir").filename("/nextcloud/3rdparty/symfony/process/ExecutableFinder.php").allow();
 sp.disable_function.function("ini_get").param("option").value("allow_url_fopen").filename("/nextcloud/3rdparty/guzzlehttp/guzzle/src/Utils.php").allow();
 sp.disable_function.function("exec").param("command").value("apachectl -M | grep mpm").filename("/nextcloud/apps2/spreed/lib/Settings/Admin/AdminSettings.php").allow();
-sp.disable_function.function("function_exists").filename("/nextcloud/apps2/spreed/lib/Settings/Admin/AdminSettings.php").allow();
+sp.disable_function.function("function_exists").param("function").value("exec").filename("/nextcloud/apps2/spreed/lib/Settings/Admin/AdminSettings.php").allow();
 
 # Harden the `chmod` function (0777 (oct = 511, 0666 = 438)
 sp.disable_function.function("chmod").param("permissions").value("438").drop();
