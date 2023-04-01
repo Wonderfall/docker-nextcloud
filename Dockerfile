@@ -47,6 +47,8 @@ RUN apk -U upgrade \
         libzip \
         openldap \
         zlib \
+        libssl3 \
+        libcrypto3 \ 
  && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
  && docker-php-ext-configure ldap \
  && docker-php-ext-install -j "$(nproc)" \
