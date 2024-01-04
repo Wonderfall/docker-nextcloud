@@ -31,7 +31,7 @@ jobs:
 
       - name: Extract version for tags
         run: |
-          echo "FULL_VERSION=$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c6)" >> $GITHUB_ENV
+          echo "FULL_VERSION=$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c7)" >> $GITHUB_ENV
           echo "MAJOR_VERSION=$(grep -oP '(?<=NEXTCLOUD_VERSION=).*' Dockerfile | head -c2)" >> $GITHUB_ENV
 
       - name: Install cosign
