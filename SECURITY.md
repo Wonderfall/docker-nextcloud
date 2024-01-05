@@ -6,7 +6,8 @@ As of now, only the latest stable version is supported.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 24. x   | :white_check_mark: |
+| 25. x   | :white_check_mark: |
+| 24. x   | :x: |
 | 23. x   | :x:                |
 | 22. x   | :x:                |
 
